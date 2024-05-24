@@ -1,10 +1,10 @@
 import React from 'react'
 
-const ColorChoose = ({color} : any) => {
-    console.log(color)
+const ColorChoose = ({color, colorProducto, product} : any) => {
+  const {name, title, stock, image} = color
   return (
-    <button className="rounded-full mt-2">
-        <img src={`/color/${color}.png`}/>
+    <button onClick={() => colorProducto(title, image)} className="rounded-full border border-slate-300 w-8 mx-1 my-2">
+        <img src={`/${product}/${name}.png`}/>
     </button>
   )
 }
