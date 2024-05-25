@@ -34,8 +34,8 @@ const Footer = () => {
                     </div>
                     <div>
                         <hr className="my-6 border-orange-50 sm:mx-auto lg:my-8" />
-                            <span className="block text-sm text-orange-50 sm:text-center">© 2024 All Rights Reserved.</span>
-                        </div>
+                            <span className="block text-sm text-orange-50 text-center">© 2024 All Rights Reserved.</span>
+                    </div>
                 </div>
             </div>
         </>
