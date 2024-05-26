@@ -3,13 +3,11 @@ import tempProducto from '@/helpers/tempProducto'
 import React from 'react'
 
 const Cards = () => {
-
     const products = tempProducto;
 
     return (
         <>
         <div className='my-8 flex flex-row flex-wrap justify-center'>
-
             {
                 products?.map((e) => {
                     return (

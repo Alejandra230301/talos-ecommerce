@@ -3,7 +3,6 @@ import React, { useState } from "react"
 
 const Navbar: React.FC = () => {
 
-    console.log("hola")
     const [isActive, setIsActive] = useState(false)
 
     return (

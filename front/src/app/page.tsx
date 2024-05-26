@@ -3,6 +3,8 @@ import Navbar from "../components/primary/Navbar";
 import Cards from "@/views/Cards";
 import Banner from "@/components/primary/Banner";
 import deals from "@/helpers/deals";
+import CardDetail from "@/components/primary/CardDetail";
+import CardsDetails from "@/views/CardsDetails";
 
 
 export default function Home() {
@@ -36,7 +38,6 @@ export default function Home() {
           <ul className="flex flex-row justify-around flex-wrap">
             {
               ofertas?.map((e) => {
-                console.log(e)
                 return (
                   <>
                     <li>
@@ -64,10 +65,10 @@ export default function Home() {
         </div>
       </div>
       {/* Ofertas */}
-      <div>
-        <h2 className="text-4xl md:text-5xl text-green-500 font-bold text-center my-6">Conoce nuestros beneficios</h2>
-        <div className="flex justify-center">
-          <ul className="flex flex-col lg:flex-row justify-center mb-6">
+      <div className="my-12">
+        <h2 className="text-4xl md:text-5xl text-green-500 font-bold text-center mb-6">Conoce nuestros beneficios</h2>
+        <div className="flex justify-center items-center">
+          <ul className="flex flex-col lg:flex-row justify-center">
             <li className="flex flex-row w-3/4 lg:w-1/4 p-3 border-orange-950 border-dashed border rounded-lg mx-3 self-center my-3 lg:my-0">
               <div className="self-center">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-12 text-orange-950 mx-3">
@@ -107,6 +108,7 @@ export default function Home() {
         </div>
       </div>
       {/* <Cards /> */}
+      <CardsDetails/>
       <Footer />
     </>
   );
