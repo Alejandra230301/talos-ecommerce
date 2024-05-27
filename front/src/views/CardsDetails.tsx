@@ -6,7 +6,7 @@ const CardsDetails = () => {
     const products = tempProducto;
   return (
     <>
-    <div className='bg-red-500 w-3/4 mx-auto'>
+    <div className='w-3/4 mx-auto'>
     {
                 products?.map((e) => {
                     return (

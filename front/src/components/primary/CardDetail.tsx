@@ -17,11 +17,11 @@ const CardDetail = ({ producto }: any) => {
     }
 
     return (
-        <div className='flex flex-row bg-white'>
+        <div className='flex flex-col lg:flex-row bg-white'>
             {/* Carrusel lateral */}
-            <div className='flex flex-col my-auto'>
-                <div className="mx-12 w-24">
-                    <ul className="flex flex-row justify-around flex-wrap">
+            <div className='flex flex-row lg:flex-col my-auto'>
+                <div className="mx-12 w-full lg:w-24">
+                    <ul className="flex flex-row lg:flex-col justify-center lg:justify-around">
                         {
                             carousel?.map((element: any) => {
                                     return (
@@ -29,9 +29,9 @@ const CardDetail = ({ producto }: any) => {
                                             console.log(e)
                                             return (
                                                 <>
-                                                    <li>
-                                                        <button onClick={() => setImageColor(e)}className="rounded-lg border bg-white p-3 my-3 ">
-                                                        <img className="w-24 h-24 object-contain" src={e} />
+                                                    <li className='mx-3 sm:mx-auto mb-3 sm:mb-6 lg:mb-0'>
+                                                        <button onClick={() => setImageColor(e)}className=" rounded-full sm:rounded-lg border bg-green-300 sm:bg-white p-3 my-3 xsm:w-full xsm:h-auto">
+                                                        <img className="sm:w-24 sm:h-24 object-contain hidden sm:block" src={e} />
                                                         </button>
                                                     </li>
                                                 </>
@@ -49,7 +49,7 @@ const CardDetail = ({ producto }: any) => {
                 </img>
             </div>
             {/* Info */}
-            <div className='flex flex-col mx-24 my-12'>
+            <div className='flex flex-col mx-8 lg:mx-24 my-12'>
                 <h2 className='text-orange-950 text-4xl font-bold my-2'>{name}</h2>
                 <p className='text-orange-950'>{`Codigo: ${id}`}</p>
                 <p className='text-orange-950 text-3xl font-bold my-4'>{`$${price}`}</p>

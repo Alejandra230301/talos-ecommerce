@@ -5,6 +5,8 @@ import Banner from "@/components/primary/Banner";
 import deals from "@/helpers/deals";
 import CardDetail from "@/components/primary/CardDetail";
 import CardsDetails from "@/views/CardsDetails";
+import ShopCart from "@/views/ShopCart";
+import Dashboard from "@/views/Dashboard";
 
 
 export default function Home() {
@@ -107,8 +109,10 @@ export default function Home() {
           </ul>
         </div>
       </div>
-      {/* <Cards /> */}
-      <CardsDetails/>
+      {/* <Cards /> 
+       <CardsDetails/>
+      <ShopCart/> */}
+      <Dashboard/>
       <Footer />
     </>
   );
