@@ -18,9 +18,7 @@ const page = () => {
       }, [userTemp]);
 
     const handleChange = (event: any) => {
-
         const { name, value } = event.target;
-        
         setInfoTemp({
             ...userTemp,
             [name]: value
@@ -28,7 +26,6 @@ const page = () => {
         if (userTemp.email != '' && userTemp.password != '') {
             setDisabled(false)
         }
-        
     }
 
     const handleSubmit = (e: any) => {

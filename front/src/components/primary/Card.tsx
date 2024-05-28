@@ -14,7 +14,7 @@ const Card = ({ producto }: any) => {
     }
 
     return (
-        <div className='bg-white xsm:w-96 w-80 m-3'>
+        <div className='bg-white m-3'>
             <div className='flex w-full'>
                 <img src={imageColor} className='object-contain h-60 w-96 my-12'>
                 </img>

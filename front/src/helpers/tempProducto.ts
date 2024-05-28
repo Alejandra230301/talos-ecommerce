@@ -8,7 +8,7 @@ const tempProducto = [
       "Experience power and elegance with the iPhone 11: capture stunning moments with its dual-camera system, enjoy exceptional performance, and immerse yourself in a brilliant Liquid Retina display. Discover a world of possibilities in the palm of your hand!",
     image:
       "https://m.media-amazon.com/images/I/51ctDoW+-NL._AC_UF894,1000_QL80_.jpg",
-    categoryId: 1,
+    category: "Smartphones",
     carousel: [
       {
         black: [
@@ -122,7 +122,7 @@ const tempProducto = [
         stock: 1,
       },
     ],
-    categoryId: 2,
+    category: "Laptops",
     stock: 10,
   },
   {
@@ -160,7 +160,7 @@ const tempProducto = [
       },
 
     ],
-    categoryId: 3,
+    category: "Tablets",
     stock: 10,
   },
   {
@@ -208,7 +208,7 @@ const tempProducto = [
         stock: 1,
       },
     ],
-    categoryId: 4,
+    category: "Accessories",
     stock: 10,
   },
   {
@@ -237,7 +237,7 @@ const tempProducto = [
         stock: 3,
       },
     ],
-    categoryId: 5,
+    categoryId: "Headphones",
     stock: 10,
   },
   {
@@ -303,7 +303,7 @@ const tempProducto = [
         stock: 1,
       }
     ],
-    categoryId: 6,
+    category: "Accessories",
     stock: 10,
   },
 
