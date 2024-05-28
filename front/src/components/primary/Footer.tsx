@@ -1,22 +1,25 @@
-"use client";
+
 import React, { useState } from 'react';
 import footerList from '@/helpers/footerList';
 import ListFooter from '../secondary/ListFooter';
 
 const Footer = () => {
 
-    const [footer, setFooter] = useState(footerList)
+    const footer = footerList
 
     return (
         <>
-            <div className='flex justify-center bg-teal-900'>
+            <footer className='flex justify-center bg-teal-900'>
                 <div className='sm:w-3/4 my-4'>
                     <div className='flex flex-wrap flex-row justify-start ml-5 sm:m-0 sm:justify-around'>
                         {
                             footer?.map((e) => {
                                 return (
                                     <>
-                                        <ListFooter props={e} />
+                                    <div key={e.id}>
+                                    <ListFooter props={e} />
+                                    </div>
+                                        
                                     </>
                                 )
                             })
@@ -37,7 +40,7 @@ const Footer = () => {
                             <span className="block text-sm text-orange-50 text-center">© 2024 All Rights Reserved.</span>
                     </div>
                 </div>
-            </div>
+            </footer>
         </>
 
     )

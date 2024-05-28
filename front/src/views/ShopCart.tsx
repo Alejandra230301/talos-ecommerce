@@ -4,7 +4,7 @@ import CardShop from '@/components/primary/CardShop'
 
 const ShopCart = () => {
   const tempCard = shopProducto
-  const isEmpty = true
+  const isEmpty = false
   return (
     <div className='mx-12 xl:mx-24 self-center my-4 flex flex-col xl:flex-row'>
       <div className={` ${isEmpty ? "w-full" : "w-full xl:w-8/12"}`}>
@@ -56,10 +56,8 @@ const ShopCart = () => {
               <button className='bg-orange-500 text-white font-bold py-2 px-3 my-2 rounded-md w-full'>Continuar</button>
             </div>
           </div>
-
         </>
       }
-
     </div>
   )
 }

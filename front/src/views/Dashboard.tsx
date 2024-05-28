@@ -6,9 +6,12 @@ const Dashboard = () => {
     const [botonDashboard, setBotonDashboard] = useState('')
 
     return (
+        <>
+
         <div className='flex flex-col lg:flex-row justify-around mx-auto lg:w-3/5'>
+            
             <div className='flex flex-col mx-12 lg:w-3/12'>
-                <h2 className='text-orange-950 text-4xl font-bold'>Mi cuenta</h2>
+            <h2 className='text-orange-950 text-4xl font-bold'>Mi cuenta</h2>
                 <button onClick={() => { setBotonDashboard('info') }} className='bg-teal-900 text-white font-bold py-3 my-4 rounded-md'>Información</button>
                 {
                     botonDashboard === 'info' &&
@@ -118,6 +121,7 @@ const Dashboard = () => {
                 }
             </div>
         </div>
+        </>
     )
 }
 

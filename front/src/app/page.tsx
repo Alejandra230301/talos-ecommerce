@@ -7,6 +7,8 @@ import CardDetail from "@/components/primary/CardDetail";
 import CardsDetails from "@/views/CardsDetails";
 import ShopCart from "@/views/ShopCart";
 import Dashboard from "@/views/Dashboard";
+import Link from "next/link";
+
 
 
 export default function Home() {
@@ -21,7 +23,6 @@ export default function Home() {
           <p className="text-black text-center">Recibe en la puerta de tu casa sin costo</p>
         </div>
       </nav>
-      <Navbar />
       {/* Primer Banner */}
       <div className='bg-slate-950 flex flex-col lg:flex-row justify-between '>
         <div className='self-center mx-16 my-6 order-last lg:order-first'>
@@ -43,9 +44,9 @@ export default function Home() {
                 return (
                   <>
                     <li>
-                      <button key={e.id} className="rounded-lg bg-white p-3 my-3">
-                        <img className="h-24 w-24" src={e.image} />
-                      </button>
+                      <Link href='/' aria-label={e.name} key={e.id} className="rounded-lg bg-white p-3 my-3 block">
+                        <img className="h-24 w-24" alt={e.name} src={e.image} />
+                      </Link>
                       <p className="text-orange-950 text-center font-bold ">{e.name}</p>
                     </li>
                   </>
@@ -113,7 +114,6 @@ export default function Home() {
        <CardsDetails/>
       <ShopCart/> */}
       <Dashboard/>
-      <Footer />
     </>
   );
 }

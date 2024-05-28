@@ -1,10 +1,10 @@
-import Cards from '@/views/Cards'
+import ShopCart from '@/views/ShopCart'
 import React from 'react'
 
 const page = () => {
   return (
     <div>
-    <Cards/>
+      <ShopCart/>
     </div>
   )
 }

@@ -4,7 +4,6 @@ import React from 'react'
 
 const CardShop = ({ producto }: any) => {
     const { id, name, product, price, image, color } = producto
-    console.log(producto)
     return (
         <div className='flex flex-col md:flex-row justify-between my-6'>
             <div className='flex flex-row'>

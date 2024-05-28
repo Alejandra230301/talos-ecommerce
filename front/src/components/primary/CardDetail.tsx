@@ -5,7 +5,6 @@ import GenericInfoCard from '../secondary/GenericInfoCard';
 
 const CardDetail = ({ producto }: any) => {
     const { id, name, product, price, description, image, stock, color, carousel } = producto
-    console.log(carousel)
     const [colorChoose, setColorChoose] = useState('Elige un color')
     const [colorCarousel, setColorCarousel] = useState('black')
     const [imageColor, setImageColor] = useState(image)
@@ -26,7 +25,6 @@ const CardDetail = ({ producto }: any) => {
                             carousel?.map((element: any) => {
                                     return (
                                         element?.[`${colorCarousel}`]?.map((e: any) => {
-                                            console.log(e)
                                             return (
                                                 <>
                                                     <li className='mx-3 sm:mx-auto mb-3 sm:mb-6 lg:mb-0'>
