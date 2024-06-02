@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 import ColorChoose from '../secondary/ColorChoose'
 import GenericInfoCard from '../secondary/GenericInfoCard';
+import Link from 'next/link';
 
 const Card = ({ producto }: any) => {
     const { name, product, price, description, image, stock, color } = producto
@@ -40,8 +41,9 @@ const Card = ({ producto }: any) => {
                 <p className='text-orange-950 font-bold my-2'>{`$${price}`}</p>
                 <GenericInfoCard/>
                 <div className='mt-2'>
-                <button className='bg-emerald-700 rounded-md p-2 my-2 w-full text-white'>Comprar ahora</button>
-                <button className='border border-emerald-700 rounded-md p-2 my-2 w-full text-orange-950'>Más información</button>
+                <Link href={`/products/${product}`} className='border border-emerald-700 rounded-md p-2 my-2 text-center block w-full text-orange-950'>Más información</Link>
+                <button className='bg-emerald-700 rounded-md p-2 mb-2 w-full text-white'>Comprar ahora</button>
+
                 </div>
             </div>
 

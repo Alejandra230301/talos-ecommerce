@@ -24,22 +24,22 @@ const Navbar: React.FC = () => {
                             <div className="self-center hidden xl:block">
                                 <ul className="flex flex-row text-orange-950 font-bold ">
                                     <li className="mx-8 my-auto align-middle">
-                                        <Link href='products'>
+                                        <Link href='/products'>
                                             Productos
                                         </Link>
                                     </li>
                                     <li className="mx-8 my-auto">
-                                        <Link href='products'>
+                                        <Link href='/products'>
                                             Ofertas
                                         </Link>
                                     </li>
                                     <li className="mx-8 my-auto">
-                                        <Link href='products'>
+                                        <Link href='/products'>
                                             Nuevo
                                         </Link>
                                     </li>
                                     <li className="mx-8 my-auto">
-                                        <Link href='products'>
+                                        <Link href='/products'>
                                             Tiendas
                                         </Link>
                                     </li>

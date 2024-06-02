@@ -1,30 +1,17 @@
-"use client";
+
 import CardDetail from '@/components/primary/CardDetail'
+import { getOneProduct } from '@/database/products';
 import tempProducto from '@/helpers/tempProducto'
+import IProduct from '@/interfaces/IProduct';
 import React, { useEffect, useState } from 'react'
 
-const page = ({ params }: any) => {
+const page = async ({ params }: any) => {
     const ruta = params.slug
-    const [producto, setProducto] = useState({})
-
-    useEffect(() => {
-        tempProducto?.map((e) => {
-            if(e.product === ruta){
-                setProducto(e)
-                console.log(producto)
-            }
-        })
-        console.log(producto)
-      });
-
+    const product = await getOneProduct(ruta)
+    console.log(product?.id)
     return (
         <>
-            <div>
-                {
-                    // <CardDetail product={producto}/>
-                }
-                
-            </div>
+        <CardDetail producto={product} />
         </>
     )
 }

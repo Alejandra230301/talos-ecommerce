@@ -110,10 +110,11 @@ export default function Home() {
           </ul>
         </div>
       </div>
-      {/* <Cards /> 
-       <CardsDetails/>
-      <ShopCart/> */}
-      <Dashboard/>
+
+       {/* <CardsDetails/>
+       <Cards /> 
+      <ShopCart/>
+      <Dashboard/> */}
     </>
   );
 }

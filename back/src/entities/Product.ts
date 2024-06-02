@@ -9,6 +9,18 @@ import {
 import { Order } from "./Order";
 import { Category } from "./Category";
 
+interface IColor {
+  name: string;
+  title: string;
+  image: string;
+  stock: number
+}
+
+interface ICarousel {
+  name: string;
+  images: string[]
+}
+
 @Entity({ name: "products" })
 export class Product {
   @PrimaryGeneratedColumn()
@@ -16,6 +28,9 @@ export class Product {
 
   @Column()
   name: string;
+
+  @Column()
+  product: string;
 
   @Column()
   description: string;
@@ -31,6 +46,12 @@ export class Product {
 
   @Column()
   categoryId: number;
+
+  @Column({ type: 'simple-json' })
+  carousel: IColor[];
+
+  @Column({ type: 'simple-json' })
+  color: ICarousel[];
 
   @ManyToOne(() => Category, (category) => category.products)
   @JoinColumn({ name: "categoryId" })
