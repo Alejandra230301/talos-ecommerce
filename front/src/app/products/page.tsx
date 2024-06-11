@@ -11,7 +11,10 @@ const page = async () => {
   const products = await getProducts()
   return (
     <>
-    <Cards data={products}/>
+      {
+        products &&
+        <Cards data={products} />
+      }
     </>
   )
 }

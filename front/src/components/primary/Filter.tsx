@@ -2,11 +2,19 @@
 import React from 'react'
 import "../../styles/input.css"
 
-const Filter = ({category, handle} : any) => {
+interface FilterProps {
+  category : {
+    id: number,
+    name: string
+  }
+  handle: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const Filter : React.FC<FilterProps>= ({category, handle}) => {
     const {id, name} = category
   return (
     <div className='flex flex-row'>
-    <input type="checkbox" value={id}  onChange={handle} />
+    <input type="checkbox" value={id} onChange={handle} />
     <label className="ms-5 mt-1 text-sm font-medium text-orange-950">{name}</label>
     </div>
   )

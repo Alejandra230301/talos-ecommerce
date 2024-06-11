@@ -1,9 +1,33 @@
 "use client";
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation';
+import { User } from '@/types/user';
 
 const Dashboard = () => {
 
+    const router = useRouter()
     const [botonDashboard, setBotonDashboard] = useState('')
+    const [token, setToken] = useState<string | null>()
+    const [data, setData] = useState<User>()
+
+    useEffect(() => {
+        if (typeof window !== "undefined" && window.localStorage) {
+            const userToken : string | null = localStorage.getItem("userToken")
+            const dataTemp : string | null = localStorage.getItem("userData") 
+            if(dataTemp){
+                console.log(JSON.parse(dataTemp))
+                setData(JSON.parse(dataTemp))
+            }
+            setToken(userToken)
+        }
+      }, [])
+
+
+    function setLogout(): void {
+        setToken(null)
+        localStorage.clear()
+        router.push("/")
+    }
 
     return (
         <>
@@ -16,8 +40,8 @@ const Dashboard = () => {
                         <>
                             <div className='flex flex-col text-orange-950  lg:hidden'>
                                 <h2 className=' text-3xl font-bold my-2'>Mi información </h2>
-                                <p className=''>Nombre</p>
-                                <p className=''>Correo</p>
+                                <p className=''>{data?.name}</p>
+                                <p className=''>{data?.email}</p>
                                 <h2 className=' text-3xl font-bold my-2'>Contraseña</h2>
                                 <p className=''>Contraseña</p>
                             </div>
@@ -59,12 +83,7 @@ const Dashboard = () => {
                             </div>
                         </>
                     }
-                    <button onClick={() => { setBotonDashboard('logout') }} className='bg-teal-900 text-white font-bold py-3 my-4 rounded-md'>Cerrar sesión</button>
-                    {
-                        botonDashboard === 'logout' &&
-                        <>
-                        </>
-                    }
+                    <button onClick={() => setLogout()} className='bg-teal-900 text-white font-bold py-3 my-4 rounded-md'>Cerrar sesión</button>
                 </div>
                 <div className='hidden lg:block w-9/12'>
                     {
@@ -72,8 +91,8 @@ const Dashboard = () => {
                             <>
                                 <div className='flex flex-col text-orange-950'>
                                     <h2 className=' text-3xl font-bold my-2'>Mi información </h2>
-                                    <p className=''>Nombre</p>
-                                    <p className=''>Correo</p>
+                                    <p className=''>{data?.name}</p>
+                                    <p className=''>{data?.email}</p>
                                     <h2 className=' text-3xl font-bold my-2'>Contraseña</h2>
                                     <p className=''>Contraseña</p>
                                 </div>

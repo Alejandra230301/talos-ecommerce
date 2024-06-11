@@ -17,7 +17,7 @@ const Footer = () => {
                                 return (
                                     <>
                                     <div key={e.id}>
-                                    <ListFooter props={e} />
+                                    <ListFooter lista={e} />
                                     </div>
                                         
                                     </>

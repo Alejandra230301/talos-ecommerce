@@ -1,10 +1,20 @@
 "use client";
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 const Navbar: React.FC = () => {
 
+    const pathname = usePathname()
     const [isActive, setIsActive] = useState(false)
+    const [token, setToken] = useState<string | null>()
+
+    useEffect(() => {
+        if (typeof window !== "undefined" && window.localStorage) {
+            const userToken : string | null = localStorage.getItem("userToken")
+            setToken(userToken)
+        }
+      }, [pathname])
 
     return (
         <>
@@ -60,7 +70,7 @@ const Navbar: React.FC = () => {
                                         <div className="bg-orange-950 bg-opacity-10 rounded-md p-3 flex justify-between">
                                             <input className="bg-orange-950 bg-opacity-0 border-none placeholder-orange-950 text-orange-950 w-full outline-none" placeholder="¿Qué estas buscando?" />
                                             <Link aria-label="Buscar" href='/'>
-                                                <svg className="w-4 h-4 text-orange-950" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                                <svg className="w-4 h-4 text-orange-950 align-middle" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                                     <path stroke="currentColor" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                                                 </svg>
                                             </Link>
@@ -76,22 +86,26 @@ const Navbar: React.FC = () => {
                                     </svg>
                                 </Link>
                             </div>
-                            <div className="flext self-center order-first md:order-3">
-                                <Link aria-label="Iniciar sesión" className="text-orange-950 flex sm:m-2" href='/login'>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 mx-2">
+                            <div className="flex self-center order-first md:order-3 md:w-44 lg:w-40 xl:w-80">
+                                <Link aria-label="Iniciar sesión" className="text-orange-950 flex sm:m-2" href={token ? "/dashboard": "/login"}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 mx-2 my-auto">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                                     </svg>
-                                    <p className="hidden md:block">Ingresar</p>
+                                    <p className="hidden md:block">{token ? "Mi cuenta": "Ingresar"}</p>
                                 </Link>
                             </div>
-                            <div className="flext self-center order-4">
-                                <Link aria-label="Ir al carrito" className="text-orange-950 flex m-2" href='/cart'>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 mx-2">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
-                                    </svg>
+                           {
+                             token && 
+                             <div className="flext self-center order-4">
+                             <Link aria-label="Ir al carrito" className="text-orange-950 flex m-2" href='/cart'>
+                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 mx-2">
+                                     <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+                                 </svg>
 
-                                </Link>
-                            </div>
+                             </Link>
+                         </div>
+                           }
+
                         </div>
                         {
                             isActive &&

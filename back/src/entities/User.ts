@@ -23,11 +23,11 @@ export class User {
     })
     email: string;
 
-    @Column()
-    address: string;
+    // @Column()
+    // address: string;
 
-    @Column()
-    phone: string;
+    // @Column()
+    // phone: string;
 
     @Column({
         type: "enum",

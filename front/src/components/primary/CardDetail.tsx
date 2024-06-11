@@ -1,18 +1,38 @@
 "use client";
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ColorChoose from '../secondary/ColorChoose'
 import GenericInfoCard from '../secondary/GenericInfoCard';
+import { useRouter } from 'next/navigation';
+import { ICarousel, IColor, IProduct } from '@/interfaces/IProduct';
 
-const CardDetail = ({producto}: any) => {
+const CardDetail = ({producto}: { producto: IProduct}) => {
+    const router = useRouter()
     const { id, name, product, price, description, image, stock, color, carousel } = producto
     const [colorChoose, setColorChoose] = useState('Elige un color')
     const [colorCarousel, setColorCarousel] = useState('black')
     const [imageColor, setImageColor] = useState(image)
+    const [token, setToken] = useState<string | null>()
+
+    useEffect(() => {
+        if (typeof window !== "undefined" && window.localStorage) {
+            const userToken : string | null = localStorage.getItem("userToken")
+            setToken(userToken)
+        }
+      }, [])
 
     const colorProducto = (color: string, imageColor: string, nameColor : string) => {
         setColorChoose(color)
         setColorCarousel(nameColor)
         setImageColor(imageColor)
+    }
+
+    const handleCart = (producto: IProduct) => {
+        if(token){
+            router.push("/cart")
+        }
+        else{
+            alert("Debes iniciar sesión para agregar productos al carrito")
+        }
     }
 
     return (
@@ -22,11 +42,10 @@ const CardDetail = ({producto}: any) => {
                 <div className="mx-12 w-full lg:w-24">
                     <ul className="flex flex-row lg:flex-col justify-center lg:justify-around">
                         {
-                            carousel?.map((element: any) => {
-                                
+                            carousel?.map((element: ICarousel) => {
                                     return (
                                         element?.name === colorCarousel &&
-                                        element?.images?.map((e: any) => {
+                                        element?.images?.map((e: string) => {
                                             return (
                                                 <>
                                                     <li className='mx-3 sm:mx-auto mb-3 sm:mb-6 lg:mb-0'>
@@ -58,7 +77,7 @@ const CardDetail = ({producto}: any) => {
                     <p className='text-orange-950 font-bold'>{`Color: ${colorChoose}`}</p>
                     <ul className='flex flex-row flex-wrap'>
                         {
-                            color?.map((e: any) => {
+                            color?.map((e: IColor) => {
                                 return (
                                     <>
                                         <li className='mx-2'>
@@ -72,7 +91,7 @@ const CardDetail = ({producto}: any) => {
                 </div>
                 <GenericInfoCard />
                 <div className='mt-2'>
-                    <button className='bg-emerald-700 rounded-md p-2 my-2 w-full text-white'>Comprar ahora</button>
+                    <button onClick={() => handleCart(producto)} className='bg-emerald-700 rounded-md p-2 my-2 w-full text-white'>Comprar ahora</button>
                 </div>
             </div>
         </div>

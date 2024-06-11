@@ -256,7 +256,7 @@ const productsToPreLoad: IProduct[] = [
         stock: 1,
       },
     ],
-    categoryId: 4,
+    categoryId: 9,
     stock: 10,
   },
   {
@@ -284,7 +284,7 @@ const productsToPreLoad: IProduct[] = [
         stock: 3,
       },
     ],
-    categoryId: 5,
+    categoryId: 4,
     stock: 10,
   },
   {
@@ -358,7 +358,7 @@ const productsToPreLoad: IProduct[] = [
         stock: 1,
       }
     ],
-    categoryId: 6,
+    categoryId: 9,
     stock: 10,
   },
 

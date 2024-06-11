@@ -25,13 +25,13 @@ export default function Home() {
       </nav>
       {/* Primer Banner */}
       <div className='bg-slate-950 flex flex-col lg:flex-row justify-between '>
-        <div className='self-center mx-16 my-6 order-last lg:order-first'>
+        <div className='self-center mx-8 sm:mx-16 my-6 order-last lg:order-first'>
           <p className='text-4xl md:text-5xl font-bold text-white'>Estrena tus dispositivos iPhone con <span className='text-orange-600'>Talos</span></p>
           <p className='text-2xl md:text-3xl my-2 text-white'>Envios gratis a cualquier parte del país</p>
           <button className='rounded-md bg-green-500 text-black font-bold py-2 px-3 my-2'>Conoce más</button>
         </div>
         <div className='justify-self-end hidden sm:block'>
-          <img className="h-64 lg:h-full w-full object-cover" src="https://images.pexels.com/photos/2047909/pexels-photo-2047909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />
+          <img className="h-64 lg:h-full w-full object-cover" alt="Banner 1 de iPhone" src="https://images.pexels.com/photos/2047909/pexels-photo-2047909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />
         </div>
       </div>
       {/* Ofertas */}
@@ -59,9 +59,9 @@ export default function Home() {
       {/* Ofertas */}
       <div className='bg-orange-950 flex flex-col lg:flex-row justify-between '>
         <div className='justify-self-end hidden sm:block'>
-          <img className="h-64 lg:h-full w-full object-cover" src="bannerHome.png" />
+          <img className="h-64 lg:h-full w-full object-cover" alt="Banner 2 de iPhone" src="bannerHome.png" />
         </div>
-        <div className='self-center mx-16 my-6 p-6'>
+        <div className='self-center mx-2 sm:mx-16 my-6 p-6'>
           <p className='text-2xl my-2 text-white'>¿Necesitas ayuda para elegir un dispositivo nuevo?</p>
           <p className='text-4xl font-bold text-white'>Accede a la sección de preguntas frecuentes de la tienda en línea</p>
           <button className='rounded-md bg-orange-500 text-black font-bold py-2 px-3 my-2'>Conoce más</button>

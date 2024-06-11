@@ -1,4 +1,5 @@
 
+import { IProduct } from '@/interfaces/IProduct'
 import React from 'react'
 
 
@@ -8,7 +9,7 @@ const CardShop = ({ producto }: any) => {
         <div className='flex flex-col md:flex-row justify-between my-6'>
             <div className='flex flex-row'>
                 <div className="flex items-center mb-4">
-                    <input type="checkbox" value="" className="mx-4 w-4 h-4" />
+                    <input type="checkbox" value="" className="mx-4" />
                 </div>
                 <div>
                     <img className="object-contain w-16 my-auto mx-auto" src={image} />
@@ -17,7 +18,7 @@ const CardShop = ({ producto }: any) => {
                     <div className='flex flex-col text-orange-950' >
                         <p className='text-2xl font-bold'>{name}</p>
                         <p>Código:  {id}</p>
-                        <p>{color}</p>
+                        {/* <p>{color}</p> */}
                     </div>
                 </div>
             </div>

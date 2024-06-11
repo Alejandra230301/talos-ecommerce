@@ -1,16 +1,16 @@
-interface IColor {
+export interface IColor {
     name: string;
     title: string;
     image: string;
     stock: number
   }
   
-  interface ICarousel {
+export interface ICarousel {
     name: string;
     images: string[]
   }
   
-  interface IProduct {
+export interface IProduct {
     id: number;
     name: string;
     product: string;
@@ -22,5 +22,3 @@ interface IColor {
     color: IColor[];
     stock: number;
   }
-
-export default IProduct;

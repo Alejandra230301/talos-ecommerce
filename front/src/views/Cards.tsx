@@ -4,28 +4,28 @@ import categoryFilter from '@/helpers/categoryFilter'
 import tempProducto from '@/helpers/tempProducto'
 import Filter from '@/components/primary/Filter'
 import Card from '@/components/primary/Card'
-import IProduct from '@/interfaces/IProduct'
+import { IProduct } from '@/interfaces/IProduct'
 
-const Cards = ({data} : any) => {
+const Cards = ({data} : {data: IProduct[] }) => {
   const categoria = categoryFilter
   //const products = tempProducto;
   const [value, setValue] = useState('')
   const [buttonFilter, setButtonFilter] = useState(false)
 
-  const [selectedFilters, setSelectedFilters]: any[] = useState([])
-  const [newProducts, setNewProducts] = useState(data)
+  const [selectedFilters, setSelectedFilters]= useState<string[]>([])
+  const [newProducts, setNewProducts] = useState<IProduct[]>(data)
 
-  const handleCheck = (event: any) => {
+  const handleCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
     //Defino el valor que toma el checkbox
     const value = event.target.value
     //Si ese filtro ya se encuentra seleccionado se eliminar del array
     if (selectedFilters?.includes(value)) {
-      let filters = selectedFilters.filter((el: any) => el !== value);
+      let filters = selectedFilters.filter((el: string) => el !== value);
       setSelectedFilters(filters);
       //Si ese filtro no se encuentra se agrega al array
     } else {
       setSelectedFilters([...selectedFilters, value]);
-      console.log(selectedFilters)
+      console.log(typeof selectedFilters)
     }
   }
 
@@ -39,9 +39,9 @@ const Cards = ({data} : any) => {
     //Si hay un filtro seleccionado entra
     if (selectedFilters?.length > 0) {
       //Mapeo mis filtros para obtener el string
-      let tempItems = selectedFilters.map((e: any) => {
+      let tempItems = selectedFilters.map((e: string) => {
         //Filtro mi objeto con todos los productos si la categoria corresponde y la almaceno en una variable
-        let temp = data.filter((item : any) => item.categoryId === Number(e) );
+        let temp = data.filter((item :  IProduct) => item.categoryId === Number(e) );
         console.log(temp)
         return temp;
       });
@@ -109,7 +109,7 @@ const Cards = ({data} : any) => {
               :
               <>
                 {
-                  newProducts?.map((e: any) => {
+                  newProducts?.map((e: IProduct) => {
                     return (
                       <>
                         <div key={e?.id}>

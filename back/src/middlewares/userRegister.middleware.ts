@@ -3,12 +3,18 @@ import { checkUserExists } from "../services/user.service";
 import { ClientError } from "../utils/errors";
 
 const validateUserRegister = (
+  
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const { email, password, name, address, phone } = req.body;
-  if (!email || !password || !name || !address || !phone)
+  console.log("entro")
+  // const { email, password, name, address, phone } = req.body;
+  // if (!email || !password || !name || !address || !phone)
+  //   next(new ClientError("Missing fields"));
+  // else next();
+  const { email, password, name } = req.body;
+  if (!email || !password || !name )
     next(new ClientError("Missing fields"));
   else next();
 };
