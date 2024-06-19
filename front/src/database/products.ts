@@ -17,6 +17,7 @@ export async function getProducts() {
 }
 
 export async function getOneProduct(name : string) {
+    console.log(name)
     try {
         const res = await fetch(`${apiUrl}/products/${name}`, {
             method: 'GET',

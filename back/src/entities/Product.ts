@@ -33,6 +33,9 @@ export class Product {
   product: string;
 
   @Column()
+  route: string;
+
+  @Column()
   description: string;
 
   @Column()

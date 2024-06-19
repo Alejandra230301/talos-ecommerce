@@ -10,7 +10,7 @@ interface ColorChooseProps {
 const ColorChoose: React.FC<ColorChooseProps> = ({color, colorProducto, product}) => {
   const {name, title, stock, image} = color
   return (
-    <button onClick={() => colorProducto(title, image, name)} className="rounded-full border border-slate-300 w-8 mx-1 my-2">
+    <button onClick={() => colorProducto(title, image, name)} className="rounded-full border border-slate-300 focus:border-slate-700 w-8 mx-1 my-2">
         <img src={`/${product}/${name}.png`}/>
     </button>
   )

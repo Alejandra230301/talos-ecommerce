@@ -29,7 +29,7 @@ const Footer = () => {
                         <p className='my-6 lg:my-auto text-white font-bold'>Obten descuentos, ofertas y más.</p>
                         <div className='flex flex-row'>
                             <input className='mx-4' placeholder='Dirección de email' />
-                            <button className='rounded-md bg-orange-600 text-white p-2 '>
+                            <button className='rounded-md bg-orange-600 text-white font-bold p-2 '>
                                 Suscribete
                             </button>
                             

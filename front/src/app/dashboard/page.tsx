@@ -1,3 +1,4 @@
+import { getOrders } from '@/database/user'
 import Dashboard from '@/views/Dashboard'
 import React from 'react'
 

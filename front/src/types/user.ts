@@ -1,10 +1,16 @@
+import { IProduct } from "@/interfaces/IProduct"
+
 interface Credentials {
     id: number,
     password: string
 }
 
 export interface Orders{
-    id: number
+    id: number,
+    status: string,
+    date: Date,
+    user: User,
+    products: IProduct[]
 }
 
 export interface User{
@@ -14,4 +20,9 @@ export interface User{
     name: string,
     orders: Orders,
     role:string
+}
+
+export interface CreateOrder{
+    userId: number;
+    products: number[];
 }

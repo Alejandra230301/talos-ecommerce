@@ -4,6 +4,7 @@ import ColorChoose from '../secondary/ColorChoose'
 import GenericInfoCard from '../secondary/GenericInfoCard';
 import { useRouter } from 'next/navigation';
 import { ICarousel, IColor, IProduct } from '@/interfaces/IProduct';
+import { useAuth } from '@/context/AuthContext';
 
 const CardDetail = ({producto}: { producto: IProduct}) => {
     const router = useRouter()
@@ -11,14 +12,27 @@ const CardDetail = ({producto}: { producto: IProduct}) => {
     const [colorChoose, setColorChoose] = useState('Elige un color')
     const [colorCarousel, setColorCarousel] = useState('black')
     const [imageColor, setImageColor] = useState(image)
-    const [token, setToken] = useState<string | null>()
+    const {userToken, setUserToken} = useAuth()
+    const [productCart, setProductCart] = useState<IProduct>()
 
     useEffect(() => {
-        if (typeof window !== "undefined" && window.localStorage) {
-            const userToken : string | null = localStorage.getItem("userToken")
-            setToken(userToken)
+        console.log(colorChoose)
+        let temp
+        if (colorChoose != 'Elige un color') {
+            temp = producto.color?.filter((e) => {
+                console.log(e.title === colorChoose)
+                return e.title === colorChoose
+            })
         }
-      }, [])
+        if (temp) {
+            console.log(temp)
+            setProductCart({
+                ...producto,
+                color: temp
+            })
+            //setProductCart(temp)
+        }
+    }, [colorChoose])
 
     const colorProducto = (color: string, imageColor: string, nameColor : string) => {
         setColorChoose(color)
@@ -26,12 +40,29 @@ const CardDetail = ({producto}: { producto: IProduct}) => {
         setImageColor(imageColor)
     }
 
-    const handleCart = (producto: IProduct) => {
-        if(token){
-            router.push("/cart")
+    const handleCart = (e: any) => {
+        if (!userToken) {
+            alert("No estas logueado")
+        } else if (colorChoose === 'Elige un color') {
+            alert('Elige un color para tu producto')
         }
-        else{
-            alert("Debes iniciar sesión para agregar productos al carrito")
+        else {
+            console.log(productCart)
+            const cart = JSON.parse(localStorage.getItem("cart") || "[]")
+            const productExist = cart?.some((product: IProduct) => {
+                if (product?.id === id) return true
+                return false
+            })
+            if (productExist) {
+                alert("Este producto ya esta en tu carrito")
+                router.push("/cart")
+            }
+            else {
+
+                cart.push(productCart)
+                localStorage.setItem("cart", JSON.stringify(cart));
+                router.push("/cart")
+            }
         }
     }
 
@@ -91,7 +122,7 @@ const CardDetail = ({producto}: { producto: IProduct}) => {
                 </div>
                 <GenericInfoCard />
                 <div className='mt-2'>
-                    <button onClick={() => handleCart(producto)} className='bg-emerald-700 rounded-md p-2 my-2 w-full text-white'>Comprar ahora</button>
+                    <button onClick={handleCart} className='bg-emerald-700 rounded-md p-2 my-2 w-full text-white'>Comprar ahora</button>
                 </div>
             </div>
         </div>

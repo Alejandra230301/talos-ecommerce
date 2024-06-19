@@ -36,7 +36,7 @@ export default function Home() {
       </div>
       {/* Ofertas */}
       <div className="my-12">
-        <h2 className="text-4xl md:text-5xl text-orange-500 font-bold text-center mb-6">Ofertas Talos</h2>
+        <h2 className="text-4xl md:text-5xl text-orange-900 font-bold text-center mb-6">Ofertas Talos</h2>
         <div className="mx-12 lg:mx-24 ">
           <ul className="flex flex-row justify-around flex-wrap">
             {
@@ -69,7 +69,7 @@ export default function Home() {
       </div>
       {/* Ofertas */}
       <div className="my-12">
-        <h2 className="text-4xl md:text-5xl text-green-500 font-bold text-center mb-6">Conoce nuestros beneficios</h2>
+        <h2 className="text-4xl md:text-5xl text-teal-900 font-bold text-center mb-6">Conoce nuestros beneficios</h2>
         <div className="flex justify-center items-center">
           <ul className="flex flex-col lg:flex-row justify-center">
             <li className="flex flex-row w-3/4 lg:w-1/4 p-3 border-orange-950 border-dashed border rounded-lg mx-3 self-center my-3 lg:my-0">

@@ -5,13 +5,12 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation';
 import { postLogin } from '@/database/user';
 import { LoginErrorProps, LoginProps } from '@/types';
+import { useAuth } from '@/context/AuthContext';
 
-interface TokenProps {
-    setToken: (value: string | null) => void;
-}
 
-const Login : React.FC<TokenProps> = ({ setToken }) => {
+const Login  = () => {
     const router = useRouter()
+    const {userToken, setUserToken, userData, setUserData} = useAuth()
     const [userTemp, setInfoTemp] = useState<LoginProps>({
         email: '', password: ''
     })
@@ -50,9 +49,8 @@ const Login : React.FC<TokenProps> = ({ setToken }) => {
         try {
             const res = await postLogin(userTemp);
             console.log(res);
-            setToken(res.token);
-            localStorage.setItem("userToken", res.token);
-            localStorage.setItem("userData", JSON.stringify(res.user));
+            setUserToken(res.token)
+            setUserData(res.user)
             router.push("/");
         } catch (error) {
             alert(error)

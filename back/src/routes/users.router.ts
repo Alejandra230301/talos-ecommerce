@@ -12,12 +12,13 @@ usersRouter.post("/register", validateUserRegister, registerUser);
 usersRouter.post("/login", validateUserLogin, login);
 
 usersRouter.get("/orders", checkLogin, async (req: Request, res: Response) => {
+  console.log(req.body)
   const { userId } = req.body;
   const orders = await OrderRepository.find({
     relations: ["products"],
     where: { user: { id: userId } },
   });
-
+  console.log(orders)
   res.send(orders);
 });
 

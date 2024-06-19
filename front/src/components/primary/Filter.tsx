@@ -15,7 +15,7 @@ const Filter : React.FC<FilterProps>= ({category, handle}) => {
   return (
     <div className='flex flex-row'>
     <input type="checkbox" value={id} onChange={handle} />
-    <label className="ms-5 mt-1 text-sm font-medium text-orange-950">{name}</label>
+    <label className="ms-2 mt-1 text-sm font-medium text-orange-950">{name}</label>
     </div>
   )
 }

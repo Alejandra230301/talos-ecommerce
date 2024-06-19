@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react'
 
 const page = async ({params} : {params : {productName: string}}) => {
     const ruta = params.productName
+    console.log(ruta)
     const product = await getOneProduct(ruta)
     return (
         <>

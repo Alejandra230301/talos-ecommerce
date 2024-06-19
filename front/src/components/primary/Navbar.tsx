@@ -1,20 +1,59 @@
 "use client";
-import React, { useEffect, useState } from "react"
-import { usePathname } from "next/navigation";
+import React, { useEffect, useState, useRef } from "react"
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
+import { useAuth } from "@/context/AuthContext";
 
 const Navbar: React.FC = () => {
 
     const pathname = usePathname()
+    const sideMenu: any = useRef()
+    const router = useRouter()
+    const [search, setSearch] = useState('')
     const [isActive, setIsActive] = useState(false)
     const [token, setToken] = useState<string | null>()
 
     useEffect(() => {
         if (typeof window !== "undefined" && window.localStorage) {
-            const userToken : string | null = localStorage.getItem("userToken")
+            const userToken: string | null = localStorage.getItem("userToken")
             setToken(userToken)
         }
-      }, [pathname])
+        document.addEventListener('mousedown', handleClickOutside);
+
+        // Limpia el evento cuando el componente se desmonte
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [pathname])
+
+    const handleClickOutside = (event: any) => {
+        if (sideMenu.current && !sideMenu.current.contains(event.target)) {
+            console.log("hola")
+            setIsActive(false);
+        }
+    };
+
+    const handlePath = (route: string) => {
+        console.log("entra")
+        setIsActive(false);
+        
+        router.push(route)
+    }
+
+    const handleChangeSearch = (e : any) => {
+        e.preventDefault()
+        setSearch(e.target.value)
+    }
+
+    const handleSearch = (e : any) => {
+        e.preventDefault()
+        localStorage.setItem("search", search);
+        if(pathname === '/search'){
+            location.reload()
+        }
+        router.push("/search")
+    }
+
 
     return (
         <>
@@ -35,7 +74,7 @@ const Navbar: React.FC = () => {
                                 <ul className="flex flex-row text-orange-950 font-bold ">
                                     <li className="mx-8 my-auto align-middle">
                                         <Link href='/products'>
-                                            Productos
+                                        Productos
                                         </Link>
                                     </li>
                                     <li className="mx-8 my-auto">
@@ -57,8 +96,8 @@ const Navbar: React.FC = () => {
                                 {/* Mobile Screen */}
                             </div>
                             <div className="self-center mx-3 xl:hidden order-first md:order-last">
-                                <button aria-label="Menu lateral" onClick={() => setIsActive(true)} className="text-orange-950">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                <button aria-label="Menu lateral" onClick={() => setIsActive(true)} className="text-orange-950 my-auto">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 my-auto">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                                     </svg>
                                 </button>
@@ -68,12 +107,12 @@ const Navbar: React.FC = () => {
                                 <form className="">
                                     <div className="">
                                         <div className="bg-orange-950 bg-opacity-10 rounded-md p-3 flex justify-between">
-                                            <input className="bg-orange-950 bg-opacity-0 border-none placeholder-orange-950 text-orange-950 w-full outline-none" placeholder="¿Qué estas buscando?" />
-                                            <Link aria-label="Buscar" href='/'>
-                                                <svg className="w-4 h-4 text-orange-950 align-middle" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                            <input onChange={handleChangeSearch} className="bg-orange-950 bg-opacity-0 border-none placeholder-orange-950 text-orange-950 w-full outline-none" placeholder="¿Qué estas buscando?" />
+                                            <button aria-label="Buscar" onClick={handleSearch} className="my-auto">
+                                                <svg className="w-4 h-4 text-orange-950" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                                     <path stroke="currentColor" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                                                 </svg>
-                                            </Link>
+                                            </button>
                                         </div>
                                     </div>
                                 </form>
@@ -87,30 +126,30 @@ const Navbar: React.FC = () => {
                                 </Link>
                             </div>
                             <div className="flex self-center order-first md:order-3 md:w-44 lg:w-40 xl:w-80">
-                                <Link aria-label="Iniciar sesión" className="text-orange-950 flex sm:m-2" href={token ? "/dashboard": "/login"}>
+                                <Link aria-label="Iniciar sesión" className="text-orange-950 flex sm:m-2" href={token ? "/dashboard" : "/login"}>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 mx-2 my-auto">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                                     </svg>
-                                    <p className="hidden md:block">{token ? "Mi cuenta": "Ingresar"}</p>
+                                    <p className="hidden md:block">{token ? "Mi cuenta" : "Ingresar"}</p>
                                 </Link>
                             </div>
-                           {
-                             token && 
-                             <div className="flext self-center order-4">
-                             <Link aria-label="Ir al carrito" className="text-orange-950 flex m-2" href='/cart'>
-                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 mx-2">
-                                     <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
-                                 </svg>
+                            {
+                                token &&
+                                <div className="flext self-center order-4">
+                                    <Link aria-label="Ir al carrito" className="text-orange-950 flex m-2" href='/cart'>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 mx-2">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+                                        </svg>
 
-                             </Link>
-                         </div>
-                           }
+                                    </Link>
+                                </div>
+                            }
 
                         </div>
                         {
                             isActive &&
                             <>
-                                <div className="fixed top-0 left-0 z-40 w-64 h-screen pt-4  overflow-y-auto bg-orange-50 shadow-md">
+                                <div ref={sideMenu} className="fixed top-0 left-0 z-40 w-64 h-screen pt-4  overflow-y-auto bg-orange-50 shadow-md">
                                     <div className="border-b px-3 pb-3 border-orange-950">
                                         <h5 className="text-orange-950 font-bold">Menú</h5>
                                         <button type="button" aria-label="Cerrar menú " onClick={() => setIsActive(false)} data-drawer-hide="drawer-navigation" aria-controls="drawer-navigation" className="text-orange-950 bg-transparent rounded-lg text-sm p-1.5 absolute top-2.5 end-2.5 inline-flex items-center" >
@@ -122,24 +161,24 @@ const Navbar: React.FC = () => {
                                         <div className="space-y-2">
                                             <ul className="flex flex-col text-orange-950 font-bold ">
                                                 <li className="mx-8 my-auto py-2">
-                                                    <Link href='products'>
+                                                    <button onClick={() => handlePath("/products")}>
                                                         Productos
-                                                    </Link>
+                                                    </button>
                                                 </li>
                                                 <li className="mx-8 my-auto py-2">
-                                                    <Link href='products'>
+                                                    <button onClick={() => handlePath("/products")}>
                                                         Ofertas
-                                                    </Link>
+                                                    </button>
                                                 </li>
                                                 <li className="mx-8 my-auto py-2">
-                                                    <Link href='products'>
+                                                    <button onClick={() => handlePath("/products")}>
                                                         Nuevo
-                                                    </Link>
+                                                    </button>
                                                 </li>
                                                 <li className="mx-8 my-auto py-2">
-                                                    <Link href='products'>
+                                                    <button onClick={() => handlePath("/products")}>
                                                         Tiendas
-                                                    </Link>
+                                                    </button>
                                                 </li>
                                             </ul>
                                         </div>
@@ -148,7 +187,6 @@ const Navbar: React.FC = () => {
 
                             </>
                         }
-
                     </nav>
                 </div>
             </header>
