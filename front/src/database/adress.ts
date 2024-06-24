@@ -23,6 +23,30 @@ export async function postAdress(token: string, adressData : AdressProps) {
     }
 }
 
+export async function putAdress(token: string, adressData : AdressProps, adressId: string) {
+    console.log(adressId)
+    console.log(adressData)
+    try {
+        const res = await fetch(`${apiUrl}/adress/${adressId}`, {
+            method: 'PUT',
+            headers: {
+                "Content-type": "application/json",
+                Authorization: token,
+            },
+            body: JSON.stringify(adressData)
+        })
+        if (!res.ok) {
+            const error = await res.json();
+            throw new Error(error.message || 'Error desconocido');
+        }
+        const userAdress = await res.json()
+        console.log(userAdress)
+        return userAdress
+    } catch (error: any) {
+        throw new Error(error.message || 'Error desconocido');
+    }
+}
+
 export async function getAdress(token: string) {
     try {
         const res = await fetch(`${apiUrl}/users/adress`, {

@@ -10,16 +10,18 @@ import Adress from '@/components/primary/Adress';
 import { getAdress } from '@/database/adress';
 import { AdressProps } from '@/types/adress';
 import OrdersDashboard from '@/components/primary/OrdersDashboard';
+import { act } from 'react-dom/test-utils';
 
 const Dashboard = () => {
 
     const router = useRouter()
     const { userToken, setUserToken, userData, isLoading } = useAuth()
     const [botonDashboard, setBotonDashboard] = useState('info')
-    const [newAdress, setNewAdress] = useState<boolean>(false)
+    const [newAdress, setNewAdress] = useState<string>('')
     const [data, setData] = useState<User | null>()
     const [orders, setOrders] = useState<Orders[]>()
     const [adress, setAdress] = useState<AdressProps[]>()
+    const [actualAdress, setActualAdress] = useState<AdressProps >()
 
     useEffect(() => {
         if (userToken) {
@@ -32,17 +34,26 @@ const Dashboard = () => {
                 const adress = await getAdress(userToken!)
                 setAdress(adress)
             }
-            
+
             fetchOrders()
             fetchAdress()
         }
     }, [newAdress, userToken])
 
-    function setLogout(): void {
+    const setLogout = () => {
         setBotonDashboard('info')
         setUserToken(null)
         localStorage.clear()
         router.push("/")
+    }
+
+    const setEditAdress = (id: number) => {
+        const filter = adress?.filter((item: AdressProps) => item.id === Number(id));
+        filter?.map((e) => {
+            setActualAdress(e)
+        })
+        setNewAdress('edit')
+
     }
 
     return (
@@ -62,7 +73,7 @@ const Dashboard = () => {
                 </div>
                 <div>
                     {
-                        botonDashboard === 'info' && newAdress === false ?
+                        botonDashboard === 'info' && newAdress === '' ?
                             <>
                                 <div className='w-3/4 flex flex-col mx-auto'>
                                     <div className='flex flex-col text-orange-950 my-3'>
@@ -75,7 +86,7 @@ const Dashboard = () => {
                                         <h2 className=' text-2xl font-bold text-orange-950 my-2'>Mis direcciones </h2>
                                         <div className='my-3'>
                                             {
-                                                adress?.length != 0  ? (
+                                                adress?.length != 0 ? (
                                                     adress?.map((e) => {
                                                         return (
                                                             <div className='flex flex-row justify-between border border-orange-900 rounded-lg p-3 my-3'>
@@ -85,7 +96,7 @@ const Dashboard = () => {
                                                                     <p className=''>{e?.code}</p>
                                                                 </div>
                                                                 <div className='flex flex-col'>
-                                                                    <button className='bg-green-500 text-white font-bold py-2 px-3 my-auto rounded-md'>
+                                                                    <button onClick={() => setEditAdress(e.id!)} className='bg-green-500 text-white font-bold py-2 px-3 my-auto rounded-md'>
                                                                         Editar
                                                                     </button>
                                                                 </div>
@@ -95,7 +106,7 @@ const Dashboard = () => {
                                                     :
                                                     <p className='text-teal-900 mb-3 font-bold'>No hay ninguna dirección</p>
                                             }
-                                            <button onClick={() => setNewAdress(true)} className='bg-orange-500 text-white font-bold py-2 px-3 my-3 self-center rounded-md'>
+                                            <button onClick={() => setNewAdress('new')} className='bg-orange-500 text-white font-bold py-2 px-3 my-3 self-center rounded-md'>
                                                 Añadir nueva dirección
                                             </button>
                                         </div>
@@ -103,9 +114,9 @@ const Dashboard = () => {
                                 </div>
                             </>
                             :
-                            botonDashboard === 'info' && newAdress === true ?
+                            botonDashboard === 'info' && newAdress != '' ?
                                 <>
-                                    <Adress changeViewAdress={setNewAdress} />
+                                    <Adress changeViewAdress={setNewAdress} typeAdress={newAdress} adress={actualAdress!}/>
                                 </>
                                 :
                                 <>

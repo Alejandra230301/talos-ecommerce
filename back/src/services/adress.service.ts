@@ -33,7 +33,7 @@ export const createAdressService = async (
 export const updateAdressService = async (
   id: number,
   createAdressDto: AdressDto
-): Promise<Adress> => {
+): Promise<Adress | null> => {
 
   const { adress, phone, country, state, city, code } = createAdressDto;
 
@@ -45,25 +45,16 @@ export const updateAdressService = async (
   });
 
   if (updateAdress) {
+    console.log(updateAdress)
+    console.log(country)
     updateAdress.adress = adress;
     updateAdress.city = city;
     updateAdress.code = code;
     updateAdress.country = country;
     updateAdress.phone = phone;
     updateAdress.state = state;
+    console.log(updateAdress)
     await AdressRespository.save(updateAdress)
 }
-
-  const newAdress = AdressRespository.create();
-
-  newAdress.user = userF;
-  newAdress.adress = adress;
-  newAdress.city = city;
-  newAdress.code = code;
-  newAdress.country = country;
-  newAdress.phone = phone;
-  newAdress.state = state;
-
-  await AdressRespository.save(newAdress);
-  return newAdress;
+  return updateAdress;
 };

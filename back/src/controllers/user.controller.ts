@@ -8,7 +8,6 @@ import {
 export const registerUser = catchedController(
   async (req: Request, res: Response) => {
     const { email, password, name} = req.body;
-    console.log(req.body)
     //const { email, password, name, address, phone } = req.body;
     const newUser = await registerUserService({
       email,

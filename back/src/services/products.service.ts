@@ -13,7 +13,6 @@ export const getProductsService = async (): Promise<Product[]> => {
 };
 
 export const getOneProductService = async (name : string): Promise<Product | null> => {
-  console.log(name)
   const product: Product | null = await ProductRepository.findOneBy({
     route: name,
   });

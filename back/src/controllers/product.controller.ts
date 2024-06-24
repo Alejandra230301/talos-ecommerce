@@ -12,7 +12,6 @@ export const getProducts = catchedController(
 
 export const getOneProduct = catchedController(
   async (req: Request, res: Response) => {
-    console.log(req.params)
     const name : string = req.params.name
     const products: Product | null = await getOneProductService(name);
     res.json(products);

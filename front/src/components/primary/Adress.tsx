@@ -1,46 +1,76 @@
 'use client';
 import { useAuth } from '@/context/AuthContext';
-import { postAdress } from '@/database/adress';
+import { postAdress, putAdress } from '@/database/adress';
 import { validateAdress } from '@/helpers/validateAdress';
 import { AdressProps } from '@/types/adress';
 import React, { useEffect, useState } from 'react'
 
-const Adress = ({changeViewAdress} : any) => {
+const Adress = ({ changeViewAdress, typeAdress, adress }: any) => {
 
-    const {userToken, setUserToken} = useAuth()
-    const [adressTemp, setRegisterTemp] = useState<AdressProps>({
-        adress: '', phone: '', country: '', city: '', code: '', state:''
+    const { userToken, setUserToken } = useAuth()
+    const [adressTemp, setAdressTemp] = useState<AdressProps>({
+        adress: '', phone: '', country: '', city: '', code: '', state: ''
+    })
+
+    const [adressEdit, setAdressEdit] = useState<AdressProps>({
+        adress: adress?.adress, phone: adress?.phone, country: adress?.country, city: adress?.city, code: adress?.code, state: adress?.state
     })
 
     const [validateErrors, setValidateErrors] = useState<boolean>(false)
     const [errors, setErrors] = useState<AdressProps>({ ...adressTemp })
+    const [errorsEdit, setErrorsEdit] = useState<AdressProps>({ ...adressTemp })
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
-        setRegisterTemp({
-            ...adressTemp,
-            [name]: value
-        })
+        console.log(value)
+        if (typeAdress === 'new') {
+            setAdressTemp((adressTemp) => ({
+                ...adressTemp,
+                [name]: value
+            }))
+        }
+        else {
+            console.log(`Cambiando ${name} a ${value}`);
+            setAdressEdit((adressEdit) => ({
+                ...adressEdit,
+                [name]: value
+            }))
+        }
     }
 
     useEffect(() => {
         setErrors(validateAdress(adressTemp));
-
-      }, [adressTemp]);
+        setErrorsEdit(validateAdress(adressEdit));
+    }, [adressTemp, adressEdit]);
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         console.log(errors)
-        if(errors.adress != ''  || errors.phone != '' || errors.country != '' || errors.city != '' || errors.state != '' || errors.code != ''){
-            setValidateErrors(true)
+        if (typeAdress === 'new') {
+            if (errors.adress != '' || errors.phone != '' || errors.country != '' || errors.city != '' || errors.state != '' || errors.code != '') {
+                setValidateErrors(true)
+            }
+            if (errors.adress === '' && errors.phone === '' && errors.country === '' && errors.city === '' && errors.state === '' && errors.code === '') {
+                console.log("entro")
+                postAdress(userToken!, adressTemp)
+                    .then((res) => {
+                        console.log(res)
+                    })
+                changeViewAdress('')
+            }
         }
-        if(errors.adress === ''  && errors.phone === '' && errors.country === '' && errors.city === '' && errors.state === '' && errors.code === ''){
-            console.log("entro")
-            postAdress(userToken!, adressTemp)
-            .then((res) => {
-                console.log(res)
-            })
-            changeViewAdress(false)
+        else {
+            if (errorsEdit.adress != '' || errorsEdit.phone != '' || errorsEdit.country != '' || errorsEdit.city != '' || errorsEdit.state != '' || errorsEdit.code != '') {
+                setValidateErrors(true)
+            }
+            if (errorsEdit.adress === '' && errorsEdit.phone === '' && errorsEdit.country === '' && errorsEdit.city === '' && errorsEdit.state === '' && errorsEdit.code === '') {
+                console.log("entro")
+                putAdress(userToken!, adressEdit, adress?.id)
+                    .then((res) => {
+                        console.log(res)
+                    })
+                changeViewAdress('')
+            }
         }
     }
 
@@ -51,74 +81,80 @@ const Adress = ({changeViewAdress} : any) => {
                 <div className=' mx-auto my-6 flex flex-col md:flex-row flex-wrap justify-between'>
                     <div className="relative z-0 w-full md:w-5/12 mb-5 group ">
                         <label className="font-bold text-teal-950">Direccion</label>
-                        <input type="text"
+                        <input
+                            type="text"
+                            defaultValue={adress?.adress}
                             onChange={handleChange}
                             name="adress"
                             className="block py-2.5 px-0 w-full text-sm text-teal-950 bg-transparent border-0 border-b-2 placeholder-teal-950  border-teal-950 appearance-none focus:outline-none focus:ring-0  peer"
-                            placeholder="Ingresa tu dirección"
                         />
-                        {validateErrors &&
-                            <p className="text-orange-500 font-bold">{errors.adress}</p>
+                        {validateErrors && 
+                            <p className="text-orange-500 font-bold">{typeAdress === 'new' ? errors.adress : errorsEdit.adress}</p>
                         }
                     </div>
                     <div className="relative z-0 w-full md:w-5/12 mb-5 group ">
                         <label className="font-bold text-teal-950">Teléfono</label>
                         <input type="number"
                             onChange={handleChange}
+                            defaultValue={adress?.phone}
                             name="phone"
                             className="block py-2.5 px-0 w-full text-sm text-teal-950 bg-transparent border-0 border-b-2 placeholder-teal-950  border-teal-950 appearance-none focus:outline-none focus:ring-0  peer"
                             placeholder="Ingresa tu teléfono"
                         />
                         {validateErrors &&
-                            <p className="text-orange-500 font-bold">{errors.phone}</p>
+                            <p className="text-orange-500 font-bold">{typeAdress === 'new' ? errors.phone : errorsEdit.phone}</p>
                         }
                     </div>
                     <div className="relative z-0 w-full md:w-5/12 mb-5 group ">
                         <label className="font-bold text-teal-950">País</label>
                         <input type="text"
                             onChange={handleChange}
+                            defaultValue={adress?.country}
                             name="country"
                             className="block py-2.5 px-0 w-full text-sm text-teal-950 bg-transparent border-0 border-b-2 placeholder-teal-950  border-teal-950 appearance-none focus:outline-none focus:ring-0  peer"
-                            placeholder="Escoge tu ciudad"
+                            placeholder="Escoge tu país"
                         />
                         {validateErrors &&
-                            <p className="text-orange-500 font-bold">{errors.country}</p>
+                            <p className="text-orange-500 font-bold">{typeAdress === 'new' ? errors.country : errorsEdit.country}</p>
                         }
                     </div>
                     <div className="relative z-0 w-full md:w-5/12 mb-5 group">
                         <label className="font-bold text-teal-950">Estado</label>
                         <input type="text"
                             onChange={handleChange}
+                            defaultValue={adress?.state}
                             name="state"
                             className="block py-2.5 px-0 w-full text-sm text-teal-950 bg-transparent border-0 border-b-2 placeholder-teal-950  border-teal-950 appearance-none focus:outline-none focus:ring-0  peer"
                             placeholder="Escoge tu estado"
                         />
                         {validateErrors &&
-                            <p className="text-orange-500 font-bold">{errors.state}</p>
+                            <p className="text-orange-500 font-bold">{typeAdress === 'new' ? errors.state : errorsEdit.state}</p>
                         }
                     </div>
                     <div className="relative z-0 w-full md:w-5/12 mb-5 group">
                         <label className="font-bold text-teal-950">Ciudad</label>
                         <input type="text"
                             onChange={handleChange}
+                            defaultValue={adress?.city}
                             name="city"
                             className="block py-2.5 px-0 w-full text-sm text-teal-950 bg-transparent border-0 border-b-2 placeholder-teal-950  border-teal-950 appearance-none focus:outline-none focus:ring-0  peer"
                             placeholder="Escoge tu ciudad"
                         />
                         {validateErrors &&
-                            <p className="text-orange-500 font-bold">{errors.city}</p>
+                            <p className="text-orange-500 font-bold">{typeAdress === 'new' ? errors.city : errorsEdit.city}</p>
                         }
                     </div>
                     <div className="relative z-0 w-full md:w-5/12 mb-5 group">
                         <label className="font-bold text-teal-950">Código postal</label>
                         <input type="number"
                             onChange={handleChange}
+                            defaultValue={adress?.code}
                             name="code"
                             className="block py-2.5 px-0 w-full text-sm text-teal-950 bg-transparent border-0 border-b-2 placeholder-teal-950  border-teal-950 appearance-none focus:outline-none focus:ring-0  peer"
-                            placeholder="Escoge tu ciudad"
+                            placeholder="Escoge tu código postal"
                         />
                         {validateErrors &&
-                            <p className="text-orange-500 font-bold">{errors.code}</p>
+                            <p className="text-orange-500 font-bold">{typeAdress === 'new' ? errors.code : errorsEdit.code}</p>
                         }
                     </div>
                     <button type="submit" className="text-white disabled:text-gray-300 bg-green-500 disabled:bg-green-200 font-bold rounded-lg w-full px-5 py-2 text-center ">Agregar dirección</button>

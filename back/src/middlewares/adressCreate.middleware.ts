@@ -8,7 +8,6 @@ const validateAdress = (
   res: Response,
   next: NextFunction
 ) => {
-  console.log(req.body)
   next();
 //   const { products } = req.body;
 //   if (!products.length)
