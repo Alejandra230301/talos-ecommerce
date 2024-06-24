@@ -10,7 +10,7 @@ import { useAuth } from '@/context/AuthContext';
 
 const Login  = () => {
     const router = useRouter()
-    const {userToken, setUserToken, userData, setUserData} = useAuth()
+    const {userToken, setUserToken, userData, setUserData, saveToken} = useAuth()
     const [userTemp, setInfoTemp] = useState<LoginProps>({
         email: '', password: ''
     })
@@ -49,6 +49,7 @@ const Login  = () => {
         try {
             const res = await postLogin(userTemp);
             console.log(res);
+            // saveToken(res.token, res.user)
             setUserToken(res.token)
             setUserData(res.user)
             router.push("/");

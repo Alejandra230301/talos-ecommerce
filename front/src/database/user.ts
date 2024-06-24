@@ -45,6 +45,7 @@ export async function postLogin(loginData : LoginProps) {
 }
 
 export async function getOrders(token: string) {
+    console.log(token)
     try {
         const res = await fetch(`${apiUrl}/users/orders`, {
             method: 'GET',

@@ -1,7 +1,6 @@
 import { LoginErrorProps, LoginProps, RegisterErrorProps, RegisterProps } from "@/types";
 
 export const validateLogin = (data : LoginProps) => {
-    console.log(data)
     let errors : LoginErrorProps = {
         email: '', password: ''
     }

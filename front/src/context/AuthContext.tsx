@@ -7,6 +7,8 @@ interface AuthContextProps {
     setUserToken: (userToken: any) => void
     userData: any;
     setUserData: (userData: any) => void
+    saveToken: (newToken: string, newData: string) => void
+    isLoading: boolean
 }
 
 //Se crea el contexto con las propiedades que se requieren
@@ -14,7 +16,9 @@ const AuthContext = createContext<AuthContextProps>({
     userToken: null,
     setUserToken: () => {},
     userData: null,
-    setUserData: () => {}
+    setUserData: () => {},
+    saveToken: () => {},
+    isLoading: true
 })
 
 interface AuthProviderProps {
@@ -25,25 +29,37 @@ interface AuthProviderProps {
 export const AuthProvider : React.FC<AuthProviderProps> = ({children}) => {
     const [userToken, setUserToken] = useState<string | null>(null)
     const [userData, setUserData] = useState<string | null>(null)
-    useEffect(() => {
-        if(userToken && userData){
-            localStorage.setItem("userToken", JSON.stringify(userToken))
-            localStorage.setItem("userData", JSON.stringify(userData))
-        }
-
-    }, [userToken])
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        if (typeof window !== "undefined" && window.localStorage) {
-            const userToken : string | null = localStorage.getItem("userToken")
-            const userData : string | null = localStorage.getItem("userData")
-            setUserToken(userToken)
-            setUserData(userData)
+        if (userToken !== null) {
+            localStorage.setItem('userToken', userToken);
         }
+    }, [userToken]);
+
+    useEffect(() => {
+        if (userData !== null) {
+            localStorage.setItem('userData', JSON.stringify(userData));
+        }
+    }, [userData]);
+
+    useEffect(() => {
+        const tempToken : string | null = localStorage.getItem("userToken")
+        const tempData : string | null = localStorage.getItem("userData")
+        tempToken && setUserToken(tempToken)
+        tempData && setUserData(JSON.parse(tempData))
+        setIsLoading(false)
     }, [])
 
+    const saveToken = (newToken : string, newData: any) => {
+        // setUserToken(newToken)
+        // setUserData(newData)
+        // localStorage.setItem("userToken", JSON.stringify(newToken))
+        // localStorage.setItem("userData", JSON.stringify(newData))
+    }
+
     return (
-        <AuthContext.Provider value={{userToken, setUserToken, userData, setUserData}}>
+        <AuthContext.Provider value={{userToken, setUserToken, userData, setUserData, saveToken, isLoading}}>
             {children}
         </AuthContext.Provider>
     )

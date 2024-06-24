@@ -4,12 +4,23 @@ import validateUserLogin from "../middlewares/userLogin.middleware";
 import { login, registerUser } from "../controllers/user.controller";
 import checkLogin from "../middlewares/checkLogin.middleware";
 import { OrderRepository } from "../repositories/order.repository";
+import { AdressRespository } from "../repositories/adress.repository";
 
 const usersRouter = Router();
 
 usersRouter.post("/register", validateUserRegister, registerUser);
 
 usersRouter.post("/login", validateUserLogin, login);
+
+usersRouter.get("/adress", checkLogin, async (req: Request, res: Response) => {
+  console.log(req.body)
+  const { userId } = req.body;
+  const adress = await AdressRespository.find({
+    where: { user: { id: userId } },
+  });
+  console.log(adress)
+  res.send(adress);
+})
 
 usersRouter.get("/orders", checkLogin, async (req: Request, res: Response) => {
   console.log(req.body)
@@ -21,5 +32,7 @@ usersRouter.get("/orders", checkLogin, async (req: Request, res: Response) => {
   console.log(orders)
   res.send(orders);
 });
+
+
 
 export default usersRouter;

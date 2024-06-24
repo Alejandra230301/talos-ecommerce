@@ -6,25 +6,37 @@ import { getOrders } from '@/database/user';
 import Order from '@/components/primary/Order';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
+import Adress from '@/components/primary/Adress';
+import { getAdress } from '@/database/adress';
+import { AdressProps } from '@/types/adress';
+import OrdersDashboard from '@/components/primary/OrdersDashboard';
 
 const Dashboard = () => {
 
     const router = useRouter()
-    const { userToken, setUserToken, userData, setUserData } = useAuth()
-    const [botonDashboard, setBotonDashboard] = useState('')
-    const [data, setData] = useState<User>()
+    const { userToken, setUserToken, userData, isLoading } = useAuth()
+    const [botonDashboard, setBotonDashboard] = useState('info')
+    const [newAdress, setNewAdress] = useState<boolean>(false)
+    const [data, setData] = useState<User | null>()
     const [orders, setOrders] = useState<Orders[]>()
+    const [adress, setAdress] = useState<AdressProps[]>()
 
     useEffect(() => {
-        console.log(userData)
-        setData(userData)
-        const fetchOrders = async () => {
-            const orders = await getOrders(userToken!)
-            console.log(orders)
-            setOrders(orders)
+        if (userToken) {
+            const fetchOrders = async () => {
+                console.log(userToken)
+                const orders = await getOrders(userToken!)
+                setOrders(orders)
+            }
+            const fetchAdress = async () => {
+                const adress = await getAdress(userToken!)
+                setAdress(adress)
+            }
+            
+            fetchOrders()
+            fetchAdress()
         }
-        fetchOrders()
-    }, [])
+    }, [newAdress, userToken])
 
     function setLogout(): void {
         setBotonDashboard('info')
@@ -44,70 +56,82 @@ const Dashboard = () => {
                     <button onClick={() => { setBotonDashboard('order') }} className={`${botonDashboard === 'order' && 'border-b-2 border-orange-400 text-orange-400'}`}>
                         Ordenes
                     </button>
-                    <button onClick={() => {setLogout()}} className='text-white focus:border-b-2 focus:border-orange-400 focus:text-orange-400'>
+                    <button onClick={() => { setLogout() }} className='text-white focus:border-b-2 focus:border-orange-400 focus:text-orange-400'>
                         Cerrar sesión
                     </button>
                 </div>
                 <div>
                     {
-
-                        botonDashboard === 'info' ?
+                        botonDashboard === 'info' && newAdress === false ?
                             <>
-                            <div className='w-3/4 flex flex-col mx-auto'>
-                                <div className='flex flex-col text-orange-950 my-3'>
-                                    <h2 className=' text-xl font-bold my-2'>Mi información </h2>
-                                    <p className=''>{data?.name}</p>
-                                    <p className=''>{data?.email}</p>
-                                </div>
-                                <div className='flex flex-col '>
-                                <h2 className=' text-xl font-bold text-orange-950 my-2'>Mis direcciones </h2>
-                                <div className='flex flex-row justify-between border border-orange-900 rounded-lg p-3'>
-                                    <div className='flex flex-col text-orange-950 self-center'>
-                                        <h2 className=' text-xl font-bold my-2'>Dirección 1</h2>
-                                        <p className=''>Nombre</p>
-                                        <p className=''>Dirección</p>
-                                    </div>
-                                    <div className='flex flex-col'>
-                                        <button className='bg-green-500 text-white font-bold py-2 px-3 my-4 rounded-md'>
-                                            Editar
-                                        </button>
-                                        <button className='bg-orange-950 text-white font-bold py-2 px-3 my-4 rounded-md'>
-                                            Borrar
-                                        </button>
-                                    </div>
+                                <div className='w-3/4 flex flex-col mx-auto'>
+                                    <div className='flex flex-col text-orange-950 my-3'>
+                                        <h2 className=' text-2xl font-bold my-2'>Mi información </h2>
 
-                                </div>
-                                <button className='bg-orange-500 text-white font-bold py-2 px-3 my-3 self-center rounded-md'>
-                                    Añadir nueva dirección
-                                </button>
-                            </div>
-                            </div>
-                            </>
-                        :
-                        <>
-                            <div className='flex flex-col text-orange-950'>
-                                {
-                                    orders?.length != 0 ? (
-                                        orders?.map((e) => {
-                                            return (
-                                                <>
-                                                <Order order={e} />
-                                                </>
-                                            )
-                                        })
-                                    )
-                                        :
-                                        <div className='w-3/4 flex flex-col justify-center mx-auto'>
-                                            <p className='my-5 text-center'>No hay ordenes</p>
-                                            <Link className="rounded-md bg-orange-600 text-white p-2 w-36 text-center mx-auto" href="/">Ir a comprar</Link>
+                                        <p className=''>{userData?.name}</p>
+                                        <p className=''>{userData?.email}</p>
+                                    </div>
+                                    <div className='flex flex-col '>
+                                        <h2 className=' text-2xl font-bold text-orange-950 my-2'>Mis direcciones </h2>
+                                        <div className='my-3'>
+                                            {
+                                                adress?.length != 0  ? (
+                                                    adress?.map((e) => {
+                                                        return (
+                                                            <div className='flex flex-row justify-between border border-orange-900 rounded-lg p-3 my-3'>
+                                                                <div className='flex flex-col text-orange-950 self-center'>
+                                                                    <h2 className=' text-xl font-bold my-2'>Dirección {e?.id}</h2>
+                                                                    <p className=''>{e?.country} , {e?.city}</p>
+                                                                    <p className=''>{e?.code}</p>
+                                                                </div>
+                                                                <div className='flex flex-col'>
+                                                                    <button className='bg-green-500 text-white font-bold py-2 px-3 my-auto rounded-md'>
+                                                                        Editar
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        )
+                                                    }))
+                                                    :
+                                                    <p className='text-teal-900 mb-3 font-bold'>No hay ninguna dirección</p>
+                                            }
+                                            <button onClick={() => setNewAdress(true)} className='bg-orange-500 text-white font-bold py-2 px-3 my-3 self-center rounded-md'>
+                                                Añadir nueva dirección
+                                            </button>
                                         </div>
-
-                                }
-                            </div>
-                        </>
+                                    </div>
+                                </div>
+                            </>
+                            :
+                            botonDashboard === 'info' && newAdress === true ?
+                                <>
+                                    <Adress changeViewAdress={setNewAdress} />
+                                </>
+                                :
+                                <>
+                                    <div className='flex flex-col text-orange-950'>
+                                        {
+                                            orders?.length != 0 ? (
+                                                orders?.map((e) => {
+                                                    return (
+                                                        <>
+                                                            <Order order={e} />
+                                                        </>
+                                                    )
+                                                })
+                                            )
+                                                :
+                                                <div className='w-3/4 flex flex-col justify-center mx-auto'>
+                                                    <p className='my-5 text-center'>No hay ordenes</p>
+                                                    <Link className="rounded-md bg-orange-600 text-white p-2 w-36 text-center mx-auto" href="/">Ir a comprar</Link>
+                                                </div>
+                                        }
+                                    </div>
+                                </>
                     }
                 </div>
             </div>
+
         </>
     )
 }
