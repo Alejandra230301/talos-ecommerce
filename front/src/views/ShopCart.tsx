@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import shopProducto from '@/helpers/shopProducto'
 import CardShop from '@/components/primary/CardShop'
-import { IProduct } from '@/interfaces/IProduct';
+import { IColor, IProduct } from '@/interfaces/IProduct';
 import Link from 'next/link';
 import { postOrders } from '@/database/user';
 import { User } from '@/types/user';
@@ -16,11 +16,18 @@ const ShopCart = () => {
   const [subTotalPrice, setSubTotalPrice] = useState<number[]>([0])
   const [totalPrice, setTotalPrice] = useState<number>(0)
   const [idProduct, setIdProduct] = useState<number>(0)
+  const [colorProduct, setColorProduct] = useState<IColor>()
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.localStorage) {
       const tempCart = JSON.parse(localStorage.getItem("cart") || "[]")
       setCart(tempCart)
+      tempCart?.map((e : IProduct) => {
+        e.color.map((color : IColor) => {
+          setColorProduct(color)
+        })
+      })
+      
     }
   }, [])
 
@@ -54,11 +61,11 @@ const ShopCart = () => {
   }
 
   const handleOrder = async () => {
-    let idOrders: number[] = [];
+    let idOrders: number[] = []; 
     cart?.map((e) => {
       idOrders.push(e.id)
     })
-    const order = await postOrders(userToken!, idOrders)
+    const order = await postOrders(userToken!, idOrders, colorProduct!)
     if(order.status === 'approved'){
       alert('Tu compra se ha realizado con exito')
       setCart([])

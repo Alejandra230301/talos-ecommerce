@@ -8,11 +8,22 @@ export const createOrderService = async (
   createOrderDto: CreateOrderDto
 ): Promise<Order> => {
   const productsF = [];
-
+  const colorChoose = createOrderDto.color
   for await (const id of createOrderDto.products) {
-    const product = await ProductRepository.findOneBy({ id });
-    if (!product) throw new Error("Product not found");
-    productsF.push(product);
+    let product
+    const tempProduct = await ProductRepository.findOneBy({ id });
+    if(!tempProduct){
+      throw new Error("Product not found")
+    } 
+    else {
+      product = tempProduct.color.filter((e) => {
+        return e.name === colorChoose.name
+      })
+      console.log(product)
+      const finalProduct = Object.defineProperty(tempProduct, "color", {value:product})
+      productsF.push(finalProduct);
+    };
+    
   }
 
   const userF = await UserRepository.findOneBy({ id: createOrderDto.userId });
@@ -23,7 +34,10 @@ export const createOrderService = async (
   newOrder.status = "approved";
   newOrder.date = new Date();
   newOrder.user = userF;
+  newOrder.color = colorChoose
   newOrder.products = productsF;
+
+  console.log(newOrder.products)
 
   await OrderRepository.save(newOrder);
   return newOrder;

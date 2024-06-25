@@ -45,15 +45,12 @@ export const updateAdressService = async (
   });
 
   if (updateAdress) {
-    console.log(updateAdress)
-    console.log(country)
     updateAdress.adress = adress;
     updateAdress.city = city;
     updateAdress.code = code;
     updateAdress.country = country;
     updateAdress.phone = phone;
     updateAdress.state = state;
-    console.log(updateAdress)
     await AdressRespository.save(updateAdress)
 }
   return updateAdress;

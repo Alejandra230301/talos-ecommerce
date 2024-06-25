@@ -1,4 +1,4 @@
-import { IProduct } from "@/interfaces/IProduct"
+import { IColor, IProduct } from "@/interfaces/IProduct"
 
 interface Credentials {
     id: number,
@@ -11,6 +11,7 @@ export interface Orders{
     date: Date,
     user: User,
     products: IProduct[]
+    color: IColor
 }
 
 export interface User{

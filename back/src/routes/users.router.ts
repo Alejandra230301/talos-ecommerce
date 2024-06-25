@@ -29,6 +29,4 @@ usersRouter.get("/orders", checkLogin, async (req: Request, res: Response) => {
   res.send(orders);
 });
 
-
-
 export default usersRouter;

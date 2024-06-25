@@ -59,7 +59,6 @@ const Card = ({ producto }: { producto: IProduct }) => {
                 router.push("/cart")
             }
             else {
-
                 cart.push(productCart)
                 localStorage.setItem("cart", JSON.stringify(cart));
                 router.push("/cart")

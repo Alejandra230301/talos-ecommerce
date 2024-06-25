@@ -89,7 +89,7 @@ const Dashboard = () => {
                                                 adress?.length != 0 ? (
                                                     adress?.map((e) => {
                                                         return (
-                                                            <div className='flex flex-row justify-between border border-orange-900 rounded-lg p-3 my-3'>
+                                                            <div className='flex flex-row justify-between border border-orange-900 rounded-lg p-3 mb-3'>
                                                                 <div className='flex flex-col text-orange-950 self-center'>
                                                                     <h2 className=' text-xl font-bold my-2'>Dirección {e?.id}</h2>
                                                                     <p className=''>{e?.country} , {e?.city}</p>

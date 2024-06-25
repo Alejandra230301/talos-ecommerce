@@ -3,17 +3,17 @@ import Link from 'next/link'
 import React from 'react'
 
 const Order = ({ order }: { order: Orders }) => {
-  const { id, status, date, products } = order
-  console.log(products)
+  const { id, status, date, products, color } = order
+  console.log(color)
 
-  const formatDate = (dateString: string) : string => {
+  const formatDate = (dateString: string): string => {
     const date = new Date(dateString);
 
     // Opciones de formateo
     const options: Intl.DateTimeFormatOptions = {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
     };
 
     // Formatear la fecha
@@ -41,11 +41,12 @@ const Order = ({ order }: { order: Orders }) => {
             return (
               <>
                 <div className='flex flex-col sm:flex-row my-3'>
-                  <img src={e.color[0].image} className='object-contain w-48 h-48 mx-3' />
+                  <img src={color.image} className='object-contain w-48 h-48 mx-3' />
                   <div className='flex flex-col justify-around'>
                     <div className='my-2 sm:my-0'>
                       <h3 className='text-teal-900 text-4xl font-bold text-center sm:text-start'>{e.name}</h3>
                       <p className='text-center sm:text-start'><span className='font-bold'>Total: </span>{`$${e.price}`}</p>
+                      <p className='text-center sm:text-start'><span className='font-bold'>Color: </span>{`${color.title}`}</p>
                     </div>
                     <div className='mx-auto sm:mx-0'>
                       <Link href={`/products/${e.route}`} className='bg-emerald-700 rounded-md p-2 mb-2 w-full text-white text-center '>Ver el producto</Link>

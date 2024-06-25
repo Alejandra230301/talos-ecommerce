@@ -9,7 +9,7 @@ import {
 import { Order } from "./Order";
 import { Category } from "./Category";
 
-interface IColor {
+export interface IColor {
   name: string;
   title: string;
   image: string;
@@ -51,10 +51,10 @@ export class Product {
   categoryId: number;
 
   @Column({ type: 'simple-json' })
-  carousel: IColor[];
+  carousel: ICarousel[];
 
   @Column({ type: 'simple-json' })
-  color: ICarousel[];
+  color: IColor[];
 
   @ManyToOne(() => Category, (category) => category.products)
   @JoinColumn({ name: "categoryId" })

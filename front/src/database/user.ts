@@ -1,4 +1,4 @@
-import { IProduct } from "@/interfaces/IProduct";
+import { IColor, IProduct } from "@/interfaces/IProduct";
 import { LoginProps, RegisterProps } from "@/types"
 import { CreateOrder, Orders } from "@/types/user";
 
@@ -64,7 +64,8 @@ export async function getOrders(token: string) {
     }
 }
 
-export async function postOrders(token: string, product: number[]) {
+export async function postOrders(token: string, product: number[], color: IColor) {
+    console.log(color)
     try {
         const res = await fetch(`${apiUrl}/orders`, {
             method: 'POST',
@@ -74,10 +75,12 @@ export async function postOrders(token: string, product: number[]) {
                 Authorization: token,
             },
             body: JSON.stringify({
-                products: product
+                products: product,
+                color: color
             })
         })
         const order = await res.json()
+        console.log(order)
         return order
     } catch (error) {
         console.log("Hubo un error")

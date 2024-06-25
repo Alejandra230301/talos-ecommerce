@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { User } from "./User";
-import { Product } from "./Product";
+import { IColor, Product } from "./Product";
 
 // status: pending, approved, rejected
 
@@ -22,6 +22,9 @@ export class Order {
 
   @Column()
   date: Date;
+
+  @Column({ type: 'simple-json' })
+  color: IColor;
 
   @ManyToOne(() => User, (user) => user.orders)
   @JoinColumn({ name: "userId" })
