@@ -5,7 +5,18 @@ import { validateAdress } from '@/helpers/validateAdress';
 import { AdressProps } from '@/types/adress';
 import React, { useEffect, useState } from 'react'
 
-const Adress = ({ changeViewAdress, typeAdress, adress }: any) => {
+interface AdressProps {
+    typeAdress: string,
+    changeViewAdress: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    fullAdress: AdressProps
+    // category : {
+    //   id: number,
+    //   name: string
+    // }
+    // handle: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  }
+
+const Adress : React.FC<AdressProps> = ({ changeViewAdress, typeAdress, fullAdress }: any) => {
 
     const { userToken, setUserToken } = useAuth()
     const [adressTemp, setAdressTemp] = useState<AdressProps>({
@@ -13,7 +24,7 @@ const Adress = ({ changeViewAdress, typeAdress, adress }: any) => {
     })
 
     const [adressEdit, setAdressEdit] = useState<AdressProps>({
-        adress: adress?.adress, phone: adress?.phone, country: adress?.country, city: adress?.city, code: adress?.code, state: adress?.state
+        adress: fullAdress?.adress, phone: fullAdress?.phone, country: fullAdress?.country, city: fullAdress?.city, code: fullAdress?.code, state: fullAdress?.state
     })
 
     const [validateErrors, setValidateErrors] = useState<boolean>(false)
@@ -83,7 +94,7 @@ const Adress = ({ changeViewAdress, typeAdress, adress }: any) => {
                         <label className="font-bold text-teal-950">Direccion</label>
                         <input
                             type="text"
-                            defaultValue={adress?.adress}
+                            defaultValue={fullAdress?.adress}
                             onChange={handleChange}
                             name="adress"
                             className="block py-2.5 px-0 w-full text-sm text-teal-950 bg-transparent border-0 border-b-2 placeholder-teal-950  border-teal-950 appearance-none focus:outline-none focus:ring-0  peer"
@@ -96,7 +107,7 @@ const Adress = ({ changeViewAdress, typeAdress, adress }: any) => {
                         <label className="font-bold text-teal-950">Teléfono</label>
                         <input type="number"
                             onChange={handleChange}
-                            defaultValue={adress?.phone}
+                            defaultValue={fullAdress?.phone}
                             name="phone"
                             className="block py-2.5 px-0 w-full text-sm text-teal-950 bg-transparent border-0 border-b-2 placeholder-teal-950  border-teal-950 appearance-none focus:outline-none focus:ring-0  peer"
                             placeholder="Ingresa tu teléfono"
@@ -109,7 +120,7 @@ const Adress = ({ changeViewAdress, typeAdress, adress }: any) => {
                         <label className="font-bold text-teal-950">País</label>
                         <input type="text"
                             onChange={handleChange}
-                            defaultValue={adress?.country}
+                            defaultValue={fullAdress?.country}
                             name="country"
                             className="block py-2.5 px-0 w-full text-sm text-teal-950 bg-transparent border-0 border-b-2 placeholder-teal-950  border-teal-950 appearance-none focus:outline-none focus:ring-0  peer"
                             placeholder="Escoge tu país"
@@ -122,7 +133,7 @@ const Adress = ({ changeViewAdress, typeAdress, adress }: any) => {
                         <label className="font-bold text-teal-950">Estado</label>
                         <input type="text"
                             onChange={handleChange}
-                            defaultValue={adress?.state}
+                            defaultValue={fullAdress?.state}
                             name="state"
                             className="block py-2.5 px-0 w-full text-sm text-teal-950 bg-transparent border-0 border-b-2 placeholder-teal-950  border-teal-950 appearance-none focus:outline-none focus:ring-0  peer"
                             placeholder="Escoge tu estado"
@@ -135,7 +146,7 @@ const Adress = ({ changeViewAdress, typeAdress, adress }: any) => {
                         <label className="font-bold text-teal-950">Ciudad</label>
                         <input type="text"
                             onChange={handleChange}
-                            defaultValue={adress?.city}
+                            defaultValue={fullAdress?.city}
                             name="city"
                             className="block py-2.5 px-0 w-full text-sm text-teal-950 bg-transparent border-0 border-b-2 placeholder-teal-950  border-teal-950 appearance-none focus:outline-none focus:ring-0  peer"
                             placeholder="Escoge tu ciudad"
@@ -148,7 +159,7 @@ const Adress = ({ changeViewAdress, typeAdress, adress }: any) => {
                         <label className="font-bold text-teal-950">Código postal</label>
                         <input type="number"
                             onChange={handleChange}
-                            defaultValue={adress?.code}
+                            defaultValue={fullAdress?.code}
                             name="code"
                             className="block py-2.5 px-0 w-full text-sm text-teal-950 bg-transparent border-0 border-b-2 placeholder-teal-950  border-teal-950 appearance-none focus:outline-none focus:ring-0  peer"
                             placeholder="Escoge tu código postal"

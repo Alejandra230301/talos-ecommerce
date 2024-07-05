@@ -34,7 +34,7 @@ const CardDetail = ({producto}: { producto: IProduct}) => {
         }
     }, [colorChoose])
 
-    const colorProducto = (color: string, imageColor: string, nameColor : string) => {
+    const colorProducto = (color: string, imageColor: string, nameColor : string, stockChoose: number) => {
         setColorChoose(color)
         setColorCarousel(nameColor)
         setImageColor(imageColor)

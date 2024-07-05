@@ -4,10 +4,12 @@ import {
   JoinColumn,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Order } from "./Order";
 import { Category } from "./Category";
+// import { Color } from "./Color";
 
 export interface IColor {
   name: string;
@@ -55,6 +57,9 @@ export class Product {
 
   @Column({ type: 'simple-json' })
   color: IColor[];
+
+  // @OneToMany(() => Color, color => color.product)
+  // color: IColor[];
 
   @ManyToOne(() => Category, (category) => category.products)
   @JoinColumn({ name: "categoryId" })

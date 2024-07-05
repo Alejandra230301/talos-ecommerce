@@ -1,12 +1,13 @@
 'use client'
+import { User } from '@/types/user';
 import React, {useContext, createContext, useState, useEffect} from 'react'
 
 //
 interface AuthContextProps {
     userToken: string | null;
-    setUserToken: (userToken: any) => void
-    userData: any;
-    setUserData: (userData: any) => void
+    setUserToken: (userToken: string | null) => void
+    userData: User;
+    setUserData: (userData: User) => void
     saveToken: (newToken: string, newData: string) => void
     isLoading: boolean
 }
@@ -15,7 +16,7 @@ interface AuthContextProps {
 const AuthContext = createContext<AuthContextProps>({
     userToken: null,
     setUserToken: () => {},
-    userData: null,
+    userData: {},
     setUserData: () => {},
     saveToken: () => {},
     isLoading: true
@@ -28,7 +29,7 @@ interface AuthProviderProps {
 //Todos los hijos se enteraran del contexto
 export const AuthProvider : React.FC<AuthProviderProps> = ({children}) => {
     const [userToken, setUserToken] = useState<string | null>(null)
-    const [userData, setUserData] = useState<string | null>(null)
+    const [userData, setUserData] = useState<User | null>(null)
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
     useEffect(() => {

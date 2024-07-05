@@ -16,6 +16,7 @@ const Card = ({ producto }: { producto: IProduct }) => {
     const [imageColor, setImageColor] = useState(image)
     const [colorCart, setColorCart] = useState<IColor>()
     const [productCart, setProductCart] = useState<IProduct>()
+    const [stockColor, setStockColor] = useState<number>()
 
     useEffect(() => {
         console.log(colorChoose)
@@ -36,7 +37,8 @@ const Card = ({ producto }: { producto: IProduct }) => {
         }
     }, [colorChoose])
 
-    const colorProducto = (color: string, imageColor: string) => {
+    const colorProducto = (color: string, imageColor: string, nameColor : string, stockChoose: number) => {
+        setStockColor(stockChoose)
         setColorChoose(color)
         setImageColor(imageColor)
     }
@@ -78,26 +80,33 @@ const Card = ({ producto }: { producto: IProduct }) => {
                     <p className='text-orange-950'>{`Color: ${colorChoose}`}</p>
                     <ul className='flex flex-row flex-wrap'>
                         {
-                            color?.map((e: IColor) => {
-                                return (
-                                    <>
-                                        <li className='mx-2'>
-                                            <ColorChoose color={e} colorProducto={colorProducto} product={product} />
-                                        </li>
-                                    </>
-                                )
+                            color?.map((e: IColor) => { 
+                                if(e.stock > 0){
+                                    return (
+                                        <>
+                                            <li className='mx-2'>
+                                                <ColorChoose color={e} colorProducto={colorProducto} product={product} />
+                                            </li>
+                                        </>
+                                    )
+                                }
                             })
                         }
                     </ul>
                 </div>
                 <p className='text-orange-950 font-bold my-2'>{`$${price}`}</p>
+                {
+                    stockColor && stockColor < 3 ? 
+                    <p className='text-red-500 font-bold my-2'>Últimas unidades</p>
+                    :
+                    null
+                }
                 <GenericInfoCard />
                 <div className='mt-2'>
                     <Link href={`/products/${route}`} className='border border-emerald-700 rounded-md p-2 my-2 text-center block w-full text-orange-950'>Más información</Link>
                     <button onClick={handleCart} className='bg-emerald-700 rounded-md p-2 mb-2 w-full text-white'>Comprar ahora</button>
                 </div>
             </div>
-
         </div>
     )
 }

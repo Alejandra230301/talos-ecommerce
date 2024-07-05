@@ -8,6 +8,7 @@ import { postOrders } from '@/database/user';
 import { User } from '@/types/user';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
+import { putStock } from '@/database/products';
 
 const ShopCart = () => {
   const router = useRouter()
@@ -39,7 +40,7 @@ const ShopCart = () => {
     setTotalPrice(suma)
   }, [subTotalPrice])
 
-  const handleTotalPrice = (e: any) => {
+  const handleTotalPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value)
     console.log(e.target.value)
     if (subTotalPrice?.includes(value)) {
@@ -58,6 +59,18 @@ const ShopCart = () => {
     setCart(tempCart)
     localStorage.setItem("cart", JSON.stringify(tempCart));
     console.log(cart)
+  }
+
+  const handleStock = async () => {
+    let name;
+    cart?.map((e) => {
+      name = e.route
+    })
+    const stock = await putStock(name!, colorProduct!)
+    console.log(stock)
+    if(stock === true) {
+      handleOrder()
+    }
   }
 
   const handleOrder = async () => {
@@ -122,7 +135,7 @@ const ShopCart = () => {
                 <p className='font-bold text-2xl'>{`$${totalPrice}`}</p>
               </div>
               <p className='text-white my-2'>El costo y días de envío serán calculados, después de ingresar la ciudad destino y tipo de envío</p>
-              <button onClick={handleOrder} className='bg-orange-500 text-white font-bold py-2 px-3 my-2 rounded-md w-full'>Continuar</button>
+              <button onClick={handleStock} className='bg-orange-500 text-white font-bold py-2 px-3 my-2 rounded-md w-full'>Continuar</button>
             </div>
           </div>
         </>

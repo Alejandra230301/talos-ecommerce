@@ -14,9 +14,6 @@ export const createAdress = catchedController(
 
 export const updateAdress = catchedController(
   async (req: Request, res: Response) => {
-    console.log("entro")
-    console.log(req.body)
-    console.log(req.params.id)
     const id : number = Number(req.params.id)
     const { adress, phone, country, state, city, code } = req.body;
     const userId = req.body.userId;

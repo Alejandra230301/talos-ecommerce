@@ -4,6 +4,7 @@ import "reflect-metadata"
 import { AppDataSource } from "./config/dataSource";
 import { preLoadCategories } from "./helpers/preLoadCategories";
 import { preLoadProducts } from "./helpers/preLoadProducts";
+// import { preLoadColor } from "./helpers/preLoadColors";
 
 const initialize = async () => {
     console.log("Initializing server");
@@ -11,6 +12,7 @@ const initialize = async () => {
     console.log("Database initialized");
     await preLoadCategories();
     await preLoadProducts();
+    // await preLoadColor();
     app.listen(PORT, () => {
         console.log(`Server running on port ${PORT}`);
     });

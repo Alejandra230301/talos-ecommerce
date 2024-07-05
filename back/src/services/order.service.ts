@@ -19,7 +19,6 @@ export const createOrderService = async (
       product = tempProduct.color.filter((e) => {
         return e.name === colorChoose.name
       })
-      console.log(product)
       const finalProduct = Object.defineProperty(tempProduct, "color", {value:product})
       productsF.push(finalProduct);
     };
@@ -37,7 +36,6 @@ export const createOrderService = async (
   newOrder.color = colorChoose
   newOrder.products = productsF;
 
-  console.log(newOrder.products)
 
   await OrderRepository.save(newOrder);
   return newOrder;

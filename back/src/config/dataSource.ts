@@ -6,6 +6,7 @@ import { Order } from "../entities/Order";
 import { Category } from "../entities/Category";
 import { Product } from "../entities/Product";
 import { Adress } from "../entities/Adress";
+// import { Color } from "../entities/Color";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -15,7 +16,7 @@ export const AppDataSource = new DataSource({
   password: DB_PASSWORD,
   database: DB_NAME,
   synchronize: true,
-  dropSchema: true,
+  //dropSchema: true,
   logging: false,
   entities: [User, Credential, Order, Product, Category, Adress],
   subscribers: [],
