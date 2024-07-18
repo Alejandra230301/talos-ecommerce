@@ -5,7 +5,11 @@ import morgan from "morgan";
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: ["https://talos-ecommerce-rk5r384v8-alejandra-pedrazas-projects.vercel.app"],
+  methods: ["POST", "GET", "PUT"],
+  credentials: true
+}));
 app.use(express.json());
 app.use(morgan("dev"));
 
